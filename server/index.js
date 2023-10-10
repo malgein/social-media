@@ -9,7 +9,10 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
+import userRoutes from "./routes/users.js";
 import authRoutes from "./routes/auth.js";
+import postRoutes from "./routes/posts.js";
+import { createPost } from "./controllers/posts.js";
 // import userRoutes from "./routes/users.js";
 import { verifyToken } from "./middleware/auth.js";
 
@@ -45,14 +48,16 @@ const storage = multer.diskStorage({
 	//!Tambien muy importantes crearemos el usuario como tal con el controler de register
 app.post("/auth/register", upload.single("picture"), register);
 
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
+
 /* ROUTES */
 //Rutas de autorizacion y autenticacion
 app.use("/auth", authRoutes);
 //Rutas de usuario, como remover un amigo o agregar uno
-// app.use("/users", userRoutes);
+app.use("/users", userRoutes);
 
-
-
+app.use("/posts", postRoutes);
+ 
   /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
