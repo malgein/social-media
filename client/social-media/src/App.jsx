@@ -1,34 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
+import HomePage from './scenes/homePage'
+import ProfilePage from './scenes/profilePage'
+import LoginPage from './scenes/loginPage'
+//hook de react que sera escencial en el modo oscuro/claro de la app
+import { useMemo } from "react";
+//Traeremos el estado global mode de redux para modificarlo
+import { useSelector } from "react-redux";
+//Necesario traer de material ui
+import { CssBaseline, ThemeProvider } from "@mui/material";
+//Necesario  de material ui para el modo claro/oscuro 
+import { createTheme } from "@mui/material/styles";
+import { themeSettings } from "./theme";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const mode = useSelector((state) => state.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='App'>
+      <BrowserRouter>
+      {/* Aqui guardamos todos los estilos de los temas claro/oscuro lo programamos tipo provider para que se establescan a lo largo de toda la app */}
+        <ThemeProvider theme={theme}>
+          {/* Necesario  de material ui para el modo claro/oscuro*/}
+          <CssBaseline />
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="/" element={<LoginPage />} />
+          </Routes>
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
   )
 }
 
