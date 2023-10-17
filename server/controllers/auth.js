@@ -14,6 +14,8 @@ export const register = async (req, res) => {
       friends,
       location,
       occupation,
+      linkedInProfile,
+      twitterProfile
     } = req.body;
 
 		//encripta el password en vez de usar un secreto usa el genSalt()
@@ -31,6 +33,8 @@ export const register = async (req, res) => {
       occupation,
       viewedProfile: 0,
       impressions: 0,
+      linkedInProfile,
+      twitterProfile
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);

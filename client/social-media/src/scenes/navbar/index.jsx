@@ -102,10 +102,14 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
+					{/* Este es el icono de mensaje en la aplicacion pienso usarla para iniciar un chat con los demas usuarios que tengas como amigos */}
           <Message sx={{ fontSize: "25px" }} />
+					{/* Este es el icono de notificaciones pieso usar socket io al igual que en los mensajes para que parescan notificaciones cuando un amigo suba un post nuevo , le de like a una publicacion tuya o comente una publicacion*/}
           <Notifications sx={{ fontSize: "25px" }} />
+					{/* Icono de ayuda, no tengo ni idea de que funcionalidad voy a colocar aqui pero algo se me ocurrira */}
           <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
+						{/* Modal que abre una ventana con el nombre completo del usuario, y la opcion de deslogeo pienso colocar una opcion para settings o un dashboard de opciones de usuario */}
             <Select
               value={fullName}
               sx={{
@@ -126,7 +130,7 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-							{/* Aqui llamamos a la action global de redux que deslogea al usuario */}
+							{/* Aqui llamamos a la action global de redux que deslogea al usuario  se encuantra dentro del modal*/}
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>

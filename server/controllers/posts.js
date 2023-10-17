@@ -71,3 +71,30 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+export const createComment = async(req, res) => {
+  try {
+    
+    const{ postId, userId }= req.params;
+    const { text } = req.body; // Suponiendo que envíes el comentario en el cuerpo de la solicitud
+
+    console.log(text)
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post no encontrado' });
+    }
+
+    // Agrega el comentario al array "comments" del post
+    post.comments.push({text: text, userId: userId});
+
+    // Guarda el post actualizado en la base de datos
+    await post.save();
+
+    res.status(201).json(post); // Devuelve el post actualizado
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+}

@@ -13,7 +13,6 @@ export const getUser = async (req, res) => {
 };
 
 //Trae los amigos del usuario por id
-
 export const getUserFriends = async (req, res) => {
   try {
     const { id } = req.params;
