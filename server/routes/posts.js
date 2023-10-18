@@ -10,6 +10,6 @@ router.get("/:userId/posts", verifyToken, getUserPosts);
 
 /* UPDATE */
 router.patch("/:id/like", verifyToken, likePost);
-router.put("/:postId/:userId",  createComment)
+router.put("/:postId/",  createComment)
 
 export default router;

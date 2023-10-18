@@ -15,9 +15,12 @@ export const getUser = async (req, res) => {
 //Trae los amigos del usuario por id
 export const getUserFriends = async (req, res) => {
   try {
+    // nps pasam el id del usuario que esta logeado
     const { id } = req.params;
+    //buscamos el usuario en la bd mediante el id que nos pasan
     const user = await User.findById(id);
 
+    //guardamos en una variable friends todos los usuarios del modelo user en la bd que contengan el id 
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
     );

@@ -75,10 +75,10 @@ export const likePost = async (req, res) => {
 export const createComment = async(req, res) => {
   try {
     
-    const{ postId, userId }= req.params;
-    const { text } = req.body; // Suponiendo que envíes el comentario en el cuerpo de la solicitud
+    const{ postId}= req.params;
+    const { text, picturePath, name, location, userId } = req.body; // Suponiendo que envíes el comentario en el cuerpo de la solicitud
 
-    console.log(text)
+    // console.log(text, picturePath, name, location)
 
     const post = await Post.findById(postId);
 
@@ -87,7 +87,7 @@ export const createComment = async(req, res) => {
     }
 
     // Agrega el comentario al array "comments" del post
-    post.comments.push({text: text, userId: userId});
+    post.comments.push({text: text, picturePath: picturePath, name: name, location: location, userId: userId });
 
     // Guarda el post actualizado en la base de datos
     await post.save();

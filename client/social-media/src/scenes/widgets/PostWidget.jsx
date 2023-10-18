@@ -17,13 +17,14 @@ import {
 
 		//Estado local que determina si va a mostrar los comentarios o no 
 		const [isComments, setIsComments] = useState(false);
+		//Estado que estrae lo que se comenta en la caja de comentarios y lo guarda, refleja el comentario que estamos escribiendo
 		const [myComment , setMyComment] = useState('')
 		const dispatch = useDispatch();
 		const token = useSelector((state) => state.token);
 		//Representa el id del usuario que esta logeado
-		const loggedInUserId = useSelector((state) => state.user._id);
+		const loggedInUser = useSelector((state) => state.user);
 		//Determina si el current user le dio like o  no al post
-		const isLiked = Boolean(likes[loggedInUserId]);
+		const isLiked = Boolean(likes[loggedInUser._id]);
 		//Lleva el conteno de likes de los posts
 		const likeCount = Object.keys(likes).length;
 	
@@ -40,7 +41,7 @@ import {
 					Authorization: `Bearer ${token}`,
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ userId: loggedInUserId }),
+				body: JSON.stringify({ userId: loggedInUser._id }),
 			});
 			const updatedPost = await response.json();
 			//Establece el valor del resultado del endpoint que deberia ser el post con sus likes actualizados para pasarselos al estado global de posts
@@ -48,14 +49,14 @@ import {
 		};
 
 		const createComment = async(input) => {
-			console.log(input)
+			// console.log(input)
 			
-			const response = await fetch(`http://localhost:3001/posts/${postId}/${loggedInUserId}`, {
+			const response = await fetch(`http://localhost:3001/posts/${postId}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({text: input})
+				body: JSON.stringify({text: input, picturePath: loggedInUser.picturePath, name: `${loggedInUser.firstName} ${loggedInUser.lastName}`, location: loggedInUser.location, userId: loggedInUser._id})
 			});
 			const updatedPost = await response.json();
 			//Establece el valor del resultado del endpoint que deberia ser el post con sus likes actualizados para pasarselos al estado global de posts
@@ -63,6 +64,7 @@ import {
 			setMyComment('')
 		}
 	
+		// const fullName = `${loggedInUser.firstName} ${loggedInUser.lastName}`
 
     return(
       <WidgetWrapper m="2rem 0">
@@ -73,6 +75,7 @@ import {
         subtitle={location}
         userPicturePath={userPicturePath}
       />
+			{console.log()}
 			{/* descrupion del post que se recibe por prop aqui va la descripcion */}
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
@@ -139,12 +142,19 @@ import {
 							disabled={!myComment}
 						>Comment</Button>
 					</FlexBetween>
+					{/* {console.log(loggedInUser)} */}
           {comments.map((comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+								<Friend
+									friendId={comment.userId}
+									name={comment.name}
+									subtitle={comment.location}
+									userPicturePath={comment.picturePath}
+                />
                 {comment.text}
-								{comment.userId === loggedInUserId && (
+								{comment.userId === loggedInUser._id && (
 									<Button
 									onClick={() => createComment(myComment)}
 									>Edit</Button>

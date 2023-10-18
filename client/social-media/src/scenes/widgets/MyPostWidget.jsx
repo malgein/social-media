@@ -148,12 +148,12 @@ const MyPostWidget = ({ picturePath }) => { //eslint-disable-line
 				{/* Aqui se habilita la opcion de panatalas responsives haciendo que i estamos en una pantalla mas pequena los de mas iconos se vean como tres puntittos ... */}
         {isNonMobileScreens ? (
           <>
-					{/* Este es el icnon para agregar videos por ahora sin funcionalidad */}
+						{/* Este es el icnon para agregar videos por ahora sin funcionalidad */}
             <FlexBetween gap="0.25rem">
               <GifBoxOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Clip</Typography>
             </FlexBetween>
-{/* este es el para agregar archivos por ahora sin funcioalidad */}
+            {/* este es el para agregar archivos por ahora sin funcioalidad */}
             <FlexBetween gap="0.25rem">
               <AttachFileOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Attachment</Typography>
@@ -170,7 +170,7 @@ const MyPostWidget = ({ picturePath }) => { //eslint-disable-line
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
         )}
-				{/* /Boton para postear si no hay ningun post bloquea el boton */}
+					{/* /Boton para postear si no hay ningun post bloquea el boton */}
         <Button
           disabled={!post}
           onClick={handlePost}
